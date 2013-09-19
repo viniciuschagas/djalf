@@ -2,3 +2,7 @@
 .DS_Store
 .ropeproject/
 *.sw*
+.coverage
+build/
+*.egg-info/
+*.pyc
