@@ -20,7 +20,7 @@ setup(
     ),
     include_package_data=True,
     install_requires=[
-        'alf>=0.3',
+        'alf>=0.4',
         'Django>=1.4.0'
     ],
 )
