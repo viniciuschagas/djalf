@@ -5,10 +5,27 @@ Djalf is an application built on top of [alf](https://github.com/globocom/alf). 
 
 Using the django's cache the application can share the access token among Its process and reduce the number of transactions with the API.
 
+Installation
+===
+
+First you should install [alf](https://github.com/globocom/alf)
+
+    $ pip install -e git+https://github.com/globocom/alf#egg=alf
+
+You can install from github:
+
+    $ pip install -e git+https://github.com/viniciuschagas/djalf#egg=djalf
+
+or from source:
+
+    $ git clone https://github.com/viniciuschagas/djalf.git
+    $ cd djalf
+    $ python setup.py install
+
 Usage
 ===
 
-You should instanciate a django client object and use this object to perform your API calls.
+You should instantiate a django client object and use this object to perform your API calls.
 
     >>> from djalf.client import ClientDjango
 
