@@ -35,5 +35,4 @@ You should instantiate a django client object and use this object to perform you
     ...    client_secret='you-client-secret'
     ...)
 
-
-    api_client.get('http://your-api-resource')
+    >>> api_client.get('http://your-api-resource')
