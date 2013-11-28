@@ -1,5 +1,6 @@
 -e .
 
 nose
+coverage
 rednose
 mock

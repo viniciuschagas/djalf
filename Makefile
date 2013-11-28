@@ -7,7 +7,7 @@ clean:
 	@rm -rf *.egg-info dist
 
 test: clean
-	@nosetests -sd tests/
+	@nosetests -sd tests/ --with-coverage --cover-package=djalf
 
 version:
 	@bin/new-version.sh
