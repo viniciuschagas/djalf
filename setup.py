@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='djalf',
-    version='0.3.0-beta',
+    version='0.3.0-rc1',
     description="OAuth Client",
     long_description='Django cache layer to alf, a OAuth Client based on requests.Session with seamless support for Client Credentials Flow',
     keywords='oauth client client_credentials requests django',
