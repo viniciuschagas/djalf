@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
 from django.core.cache import cache
 from alf.managers import TokenManager
 
@@ -8,14 +9,27 @@ class TokenManagerDjango(TokenManager):
     def _get_from_cache(self):
         return cache.get(self._token_endpoint)
 
+    def _validate_cached_data(self, token_data):
+        if token_data and token_data.get('expires_on') > datetime.now():
+            if self._token.access_token != token_data.get('access_token'):
+                return True
+
+        return False
+
+    def reset_token(self):
+        self._update_token()
+
     def _get_token_data(self):
         token_data = self._get_from_cache()
-        if token_data:
+        is_valid = self._validate_cached_data(token_data)
+
+        if is_valid:
             return token_data
 
         return super(TokenManagerDjango, self)._get_token_data()
 
     def _request_token(self):
         token_data = super(TokenManagerDjango, self)._request_token()
+        token_data['expires_on'] = datetime.now() + timedelta(seconds=token_data.get('expires_in', 0))
         cache.set(self._token_endpoint, token_data, token_data.get('expires_in', 0))
         return token_data
