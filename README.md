@@ -3,7 +3,7 @@ djalf
 
 Djalf is an application built on top of [alf](https://github.com/globocom/alf). It implements a custom token manager that stores the access token in the django's cache backend. This is useful for applications running with more than one process (with gunicorn, for example).
 
-Using the django's cache the application can share the access token among Its process and reduce the number of transactions with the API.
+Using the django's cache, the application can share the access token among Its process, reducing the number of transactions with the API.
 
 Installation
 ===
