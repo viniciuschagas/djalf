@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import logging
 from datetime import datetime, timedelta
 from django.core.cache import cache
 from alf.managers import TokenManager
+
+log = logging.getLogger(__name__)
 
 
 class TokenManagerDjango(TokenManager):
@@ -17,6 +20,7 @@ class TokenManagerDjango(TokenManager):
         return False
 
     def reset_token(self):
+        log.warning('Starting token reset process')
         self._update_token()
 
     def _get_token_data(self):
@@ -29,6 +33,7 @@ class TokenManagerDjango(TokenManager):
         return super(TokenManagerDjango, self)._get_token_data()
 
     def _request_token(self):
+        log.info('Getting a new token')
         token_data = super(TokenManagerDjango, self)._request_token()
         token_data['expires_on'] = datetime.now() + timedelta(seconds=token_data.get('expires_in', 0))
         cache.set(self._token_endpoint, token_data, token_data.get('expires_in', 0))

@@ -82,6 +82,17 @@ class TestTokenManagerDjango(TestCase):
 
         cache_set.assert_called_once_with(self.manager._token_endpoint, token_data, 10)
 
+    @patch('djalf.managers.log.info')
+    @patch('alf.managers.TokenManager._request_token')
+    @patch('djalf.managers.cache.set')
+    def test_request_token_should_log_in_info_level_that_will_retrieve_a_new_token(self, cache_set, _request_token, log_info):
+        _request_token.return_value = {'access_token': 'access_token', 'expires_in': 10}
+
+        self.manager._request_token()
+
+        log_info.assert_called_once_with('Getting a new token')
+
+
     @patch('djalf.managers.TokenManagerDjango._validate_cached_data')
     @patch('djalf.managers.TokenManagerDjango._get_from_cache')
     def test_get_token_data_should_verify_if_data_in_cache_is_valid(self, _get_from_cache, _validate_cached_data):
@@ -122,3 +133,10 @@ class TestTokenManagerDjango(TestCase):
         self.manager.reset_token()
 
         self.assertTrue(_update_token.called)
+
+    @patch('djalf.managers.log.warning')
+    @patch('alf.managers.TokenManager._update_token')
+    def test_reset_token_should_log_an_warning_about_it(self, _update_token, log_warning):
+        self.manager.reset_token()
+
+        log_warning.assert_called_once_with('Starting token reset process')
