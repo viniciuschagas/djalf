@@ -126,7 +126,7 @@ class TestTokenManagerDjango(TestCase):
 
         self.assertTrue(_validate_cached_data.called)
 
-        original_get_token_data.assert_called_once()
+        self.assertTrue(original_get_token_data.called)
 
     @patch('alf.managers.TokenManager._update_token')
     def test_reset_token_should_call_update_token_method(self, _update_token):
