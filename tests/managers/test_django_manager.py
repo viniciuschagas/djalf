@@ -36,6 +36,10 @@ class TestTokenManagerDjango(TestCase):
     def test_validate_cached_data_should_return_true_if_data_is_valid(self):
         self.assertTrue(self.manager._validate_cached_data(self.token_data))
 
+    def test_validate_cached_data_should_return_false_if_expires_on_do_not_exist(self):
+        self.token_data.pop('expires_on')
+        self.assertFalse(self.manager._validate_cached_data(self.token_data))
+
     @freeze_time(DEFAULT_DATE_TIME_STR)
     def test_validate_cached_data_should_return_false_if_expires_on_is_lower_then_now(self):
         lower_date_time = datetime.datetime(2013, 11, 28, 10, 50, 00, 000000)

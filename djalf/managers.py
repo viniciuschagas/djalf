@@ -13,8 +13,9 @@ class TokenManagerDjango(TokenManager):
         return cache.get(self._token_endpoint)
 
     def _validate_cached_data(self, token_data):
-        if token_data and token_data.get('expires_on') > datetime.now():
-            if self._token.access_token != token_data.get('access_token'):
+        if token_data:
+            expires_on = token_data.get('expires_on', None)
+            if (expires_on and expires_on > datetime.now()) and (self._token.access_token != token_data.get('access_token')):
                 return True
 
         return False
