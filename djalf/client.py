@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from alf.client import Client
-
-from djalf.managers import TokenManagerDjango
+from django.core.cache import cache
 
 
 class ClientDjango(Client):
-
-    token_manager_class = TokenManagerDjango
+    def __init__(self, *args, **kwargs):
+        super(ClientDjango, self).__init__(*args, **kwargs)
+        self._token_storage = cache
