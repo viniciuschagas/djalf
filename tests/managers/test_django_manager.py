@@ -144,3 +144,8 @@ class TestTokenManagerDjango(TestCase):
         self.manager.reset_token()
 
         log_warning.assert_called_once_with('Starting token reset process')
+
+    def test_cache_key_should_be_formed_by_endpoint_client_id_and_secret(self):
+        cache_key = self.manager._get_cache_key()
+        self.assertEqual(cache_key,
+                         'http://endpoint/token_client_id_client_secret')

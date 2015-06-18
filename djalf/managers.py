@@ -9,6 +9,10 @@ log = logging.getLogger(__name__)
 
 class TokenManagerDjango(TokenManager):
 
+    def _get_cache_key(self):
+        return '{}_{}_{}'.format(self._token_endpoint, self._client_id,
+                                 self._client_secret)
+
     def _get_from_cache(self):
         return cache.get(self._token_endpoint)
 
