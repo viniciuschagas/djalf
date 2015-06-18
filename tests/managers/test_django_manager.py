@@ -25,7 +25,7 @@ class TestTokenManagerDjango(TestCase):
 
     def setUp(self):
         self.token = Token(access_token='anoldtoken',
-                           expires_in=self.token_data.get('expires_in'))
+                           expires_on=self.token_data.get('expires_in'))
 
         self.manager._token = self.token
 
