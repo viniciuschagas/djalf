@@ -14,7 +14,7 @@ class TokenManagerDjango(TokenManager):
                                  self._client_secret)
 
     def _get_from_cache(self):
-        return cache.get(self._token_endpoint)
+        return cache.get(self._get_cache_key())
 
     def _validate_cached_data(self, token_data):
         if token_data:
@@ -41,5 +41,5 @@ class TokenManagerDjango(TokenManager):
         log.info('Getting a new token')
         token_data = super(TokenManagerDjango, self)._request_token()
         token_data['expires_on'] = datetime.now() + timedelta(seconds=token_data.get('expires_in', 0))
-        cache.set(self._token_endpoint, token_data, token_data.get('expires_in', 0))
+        cache.set(self._get_cache_key(), token_data, token_data.get('expires_in', 0))
         return token_data

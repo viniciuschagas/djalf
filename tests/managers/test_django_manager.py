@@ -23,6 +23,10 @@ class TestTokenManagerDjango(TestCase):
             'http://endpoint/token', 'client_id', 'client_secret'
         )
 
+        cls.cache_key = '{}_{}_{}'.format(cls.manager._token_endpoint,
+                                          cls.manager._client_id,
+                                          cls.manager._client_secret)
+
     def setUp(self):
         self.token = Token(access_token='anoldtoken',
                            expires_on=self.token_data.get('expires_in'))
@@ -57,8 +61,7 @@ class TestTokenManagerDjango(TestCase):
     @patch('djalf.managers.cache.get')
     def test_get_from_cache_should_returns_data_stored_in_cache(self, cache_get):
         self.manager._get_from_cache()
-
-        cache_get.assert_called_once_with(self.manager._token_endpoint)
+        cache_get.assert_called_once_with(self.cache_key)
 
     @patch('alf.managers.TokenManager._request_token')
     @patch('djalf.managers.cache.set')
@@ -69,7 +72,7 @@ class TestTokenManagerDjango(TestCase):
 
         self.manager._request_token()
 
-        cache_set.assert_called_once_with(self.manager._token_endpoint, token_data, 10)
+        cache_set.assert_called_once_with(self.cache_key, token_data, 10)
 
     @freeze_time(DEFAULT_DATE_TIME_STR)
     @patch('alf.managers.TokenManager._request_token')
@@ -84,7 +87,7 @@ class TestTokenManagerDjango(TestCase):
 
         self.assertEqual(token_data.get('expires_on'), expected_expires_on)
 
-        cache_set.assert_called_once_with(self.manager._token_endpoint, token_data, 10)
+        cache_set.assert_called_once_with(self.cache_key, token_data, 10)
 
     @patch('djalf.managers.log.info')
     @patch('alf.managers.TokenManager._request_token')
