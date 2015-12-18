@@ -28,11 +28,13 @@ Usage
 You should instantiate a django client object and use this object to perform your API calls.
 
     >>> from djalf.client import ClientDjango
+    >>> from requests.packages.urllib3.util import Retry # only with alf >=0.6.0
 
     >>> api_client = ClientDjango(
     ...    token_endpoint='http://your-token-end-point',
     ...    client_id='your-client-id',
-    ...    client_secret='you-client-secret'
+    ...    client_secret='you-client-secret',
+    ...    token_retry=Retry(total=5, status_forcelist=[500], backoff_factor=0.3) # only with alf >=0.6.0
     ...)
 
     >>> api_client.get('http://your-api-resource')
