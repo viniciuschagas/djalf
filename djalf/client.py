@@ -10,5 +10,5 @@ __all__ = ['ClientDjango']
 class ClientDjango(Client):
 
     def __init__(self, *args, **kwargs):
+        kwargs['token_storage'] = cache
         super(ClientDjango, self).__init__(*args, **kwargs)
-        self._token_storage = cache
